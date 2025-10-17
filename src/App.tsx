@@ -13,6 +13,10 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      {/* Add smooth scrolling */}
+      <style>
+        {`html { scroll-behavior: smooth; }`}
+      </style>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
