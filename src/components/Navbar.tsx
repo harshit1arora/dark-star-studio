@@ -2,11 +2,25 @@ import { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Detect active section
+      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      const current = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+      if (current) setActiveSection(current);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -18,46 +32,47 @@ const Navbar = () => {
     }
   };
 
+  const navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About Me' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'projects', label: 'Projects' },
+  ];
+
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-black/80 backdrop-blur-md border-b border-border' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled 
+          ? 'bg-black/90 backdrop-blur-xl border-b border-primary/20 shadow-lg shadow-primary/10' 
+          : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           <button 
             onClick={() => scrollToSection('home')}
-            className="text-lg font-bold text-foreground hover:text-primary transition-colors"
+            className="text-xl font-bold gradient-text hover:scale-105 transition-transform duration-300"
           >
-            Harshit Arora Portfolio
+            Harshit Arora
           </button>
           
           <div className="flex gap-8">
-            <button
-              onClick={() => scrollToSection('home')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              About Me
-            </button>
-            <button
-              onClick={() => scrollToSection('skills')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Skills
-            </button>
-            <button
-              onClick={() => scrollToSection('projects')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Projects
-            </button>
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`relative text-foreground transition-all duration-300 group ${
+                  activeSection === item.id ? 'text-primary' : 'hover:text-primary'
+                }`}
+              >
+                {item.label}
+                <span 
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    activeSection === item.id ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}
+                />
+              </button>
+            ))}
           </div>
         </div>
       </div>

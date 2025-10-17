@@ -1,18 +1,35 @@
 import { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import Navbar from '@/components/Navbar';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Github, Linkedin, Mail, ExternalLink, Code2, Database, Shield } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Code2, Database, Shield, Sparkles } from 'lucide-react';
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  const whyRubrikRef = useScrollAnimation();
+  const aboutRef = useScrollAnimation();
+  const skillsRef = useScrollAnimation();
+  const projectsRef = useScrollAnimation();
+  const contactRef = useScrollAnimation();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   const skills = [
@@ -44,33 +61,71 @@ const Index = () => {
       
       <div className="relative z-10">
         {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
+        <section id="home" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 relative overflow-hidden">
+          {/* Animated gradient orbs */}
           <div 
-            className="text-center max-w-4xl animate-fade-in"
-            style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+            className="absolute w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse"
+            style={{ 
+              left: `${mousePosition.x / 20}px`,
+              top: `${mousePosition.y / 20}px`,
+              transition: 'all 0.5s ease-out'
+            }}
+          />
+          <div 
+            className="absolute w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse"
+            style={{ 
+              right: `${mousePosition.x / 30}px`,
+              bottom: `${mousePosition.y / 30}px`,
+              transition: 'all 0.7s ease-out',
+              animationDelay: '1s'
+            }}
+          />
+          
+          <div 
+            className="text-center max-w-4xl relative z-10"
+            style={{ transform: `translateY(${scrollY * 0.3}px)` }}
           >
-            <div className="mb-6 inline-block">
-              <Badge variant="outline" className="px-4 py-2 text-sm border-primary/50 text-primary animate-pulse-glow">
+            <div className="mb-8 inline-block reveal-text">
+              <Badge variant="outline" className="px-6 py-3 text-sm border-primary/50 text-primary animate-pulse-glow backdrop-blur-sm bg-primary/5">
+                <Sparkles className="w-4 h-4 inline mr-2" />
                 Open to Opportunities
               </Badge>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 gradient-text animate-float">
-              Harshit Arora
+            
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-8 reveal-text" style={{ animationDelay: '0.2s' }}>
+              <span className="gradient-text inline-block hover:scale-105 transition-transform duration-300 cursor-default">
+                Harshit Arora
+              </span>
             </h1>
-            <p className="text-2xl sm:text-3xl text-muted-foreground mb-8">
+            
+            <p className="text-3xl sm:text-4xl text-foreground mb-10 reveal-text font-light tracking-wide" style={{ animationDelay: '0.4s' }}>
               Aspiring Software Developer
             </p>
-            <p className="text-lg sm:text-xl text-foreground/80 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Turning complex problems into elegant solutions through code, research, and innovation
+            
+            <p className="text-xl sm:text-2xl text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed reveal-text" style={{ animationDelay: '0.6s' }}>
+              Turning complex problems into elegant solutions through 
+              <span className="text-primary font-semibold"> code</span>,
+              <span className="text-primary font-semibold"> research</span>, and
+              <span className="text-primary font-semibold"> innovation</span>
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button size="lg" className="hover-glow group">
+            
+            <div className="flex flex-wrap gap-6 justify-center reveal-text" style={{ animationDelay: '0.8s' }}>
+              <Button 
+                size="lg" 
+                className="magnetic-button hover-glow group px-8 py-6 text-lg shadow-elegant hover:shadow-intense"
+                asChild
+              >
                 <a href="#contact" className="flex items-center gap-2">
                   Get in Touch
-                  <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="hover-glow border-primary/50">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="magnetic-button hover-glow border-primary/50 px-8 py-6 text-lg backdrop-blur-sm bg-primary/5"
+                asChild
+              >
                 <a href="#projects">View Projects</a>
               </Button>
             </div>
@@ -78,12 +133,12 @@ const Index = () => {
         </section>
 
         {/* Why Rubrik Section */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center gradient-text">
-              Why Rubrik?
+        <section className="py-32 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto" ref={whyRubrikRef.ref}>
+            <h2 className={`text-5xl font-bold mb-16 text-center ${whyRubrikRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+              <span className="gradient-text">Why Rubrik?</span>
             </h2>
-            <Card className="glass-card hover-glow">
+            <Card className={`glass-card hover-glow shadow-elegant ${whyRubrikRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
               <CardHeader>
                 <CardTitle className="text-2xl flex items-center gap-3">
                   <Shield className="w-8 h-8 text-primary" />
@@ -154,12 +209,12 @@ const Index = () => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center gradient-text">
-              About Me
+        <section id="about" className="py-32 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto" ref={aboutRef.ref}>
+            <h2 className={`text-5xl font-bold mb-16 text-center ${aboutRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+              <span className="gradient-text">About Me</span>
             </h2>
-            <Card className="glass-card hover-glow">
+            <Card className={`glass-card hover-glow shadow-elegant ${aboutRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
               <CardContent className="pt-6 text-foreground/90 leading-relaxed space-y-4">
                 <p>
                   Harshit is a computer science student at Vellore Institute of Technology, Bhopal with a passion for solving real-world problems through code. 
@@ -190,20 +245,22 @@ const Index = () => {
         </section>
 
         {/* Skills Section */}
-        <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center gradient-text">
-              Technical Arsenal
+        <section id="skills" className="py-32 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto" ref={skillsRef.ref}>
+            <h2 className={`text-5xl font-bold mb-16 text-center ${skillsRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+              <span className="gradient-text">Technical Arsenal</span>
             </h2>
-            <Card className="glass-card">
-              <CardContent className="pt-6">
-                <div className="flex flex-wrap gap-3 justify-center">
+            <Card className={`glass-card shadow-elegant ${skillsRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+              <CardContent className="pt-8">
+                <div className="flex flex-wrap gap-4 justify-center">
                   {skills.map((skill, index) => (
                     <Badge
                       key={skill}
                       variant="secondary"
-                      className="px-4 py-2 text-sm hover-glow cursor-default bg-secondary/50 border border-primary/20"
-                      style={{ animationDelay: `${index * 0.05}s` }}
+                      className={`px-5 py-3 text-base magnetic-button cursor-default bg-secondary/50 border border-primary/20 hover:border-primary hover:bg-primary/10 hover:scale-110 hover:shadow-glow ${
+                        skillsRef.isVisible ? 'fade-in-scale' : 'opacity-0'
+                      }`}
+                      style={{ animationDelay: `${0.3 + index * 0.03}s` }}
                     >
                       {skill}
                     </Badge>
@@ -215,33 +272,41 @@ const Index = () => {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold mb-12 text-center gradient-text">
-              Featured Projects
+        <section id="projects" className="py-32 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto" ref={projectsRef.ref}>
+            <h2 className={`text-5xl font-bold mb-16 text-center ${projectsRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+              <span className="gradient-text">Featured Projects</span>
             </h2>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-10">
               {projects.map((project, index) => (
                 <Card 
                   key={index} 
-                  className="glass-card hover-glow"
-                  style={{ animationDelay: `${index * 0.2}s` }}
+                  className={`glass-card hover-glow shadow-elegant group cursor-pointer ${
+                    projectsRef.isVisible 
+                      ? index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'
+                      : 'opacity-0'
+                  }`}
+                  style={{ animationDelay: `${0.3 + index * 0.2}s` }}
                 >
                   <CardHeader>
-                    <CardTitle className="text-xl">{project.title}</CardTitle>
-                    <CardDescription className="text-foreground/70 leading-relaxed">
+                    <CardTitle className="text-2xl group-hover:text-primary transition-colors duration-300">{project.title}</CardTitle>
+                    <CardDescription className="text-foreground/70 leading-relaxed text-base">
                       {project.description}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
-                      <p className="text-sm text-foreground/80 font-medium">
-                        {project.achievement}
+                  <CardContent className="space-y-5">
+                    <div className="p-4 bg-primary/10 rounded-lg border border-primary/20 group-hover:border-primary/40 transition-all duration-300 group-hover:shadow-glow">
+                      <p className="text-sm text-foreground/90 font-medium">
+                        ✨ {project.achievement}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {project.tech.map((tech) => (
-                        <Badge key={tech} variant="outline" className="border-accent/50 text-accent">
+                        <Badge 
+                          key={tech} 
+                          variant="outline" 
+                          className="border-primary/50 text-primary hover:bg-primary/10 transition-colors duration-300"
+                        >
                           {tech}
                         </Badge>
                       ))}
@@ -254,32 +319,46 @@ const Index = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-12 gradient-text">
-              Let's Connect
+        <section id="contact" className="py-32 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center" ref={contactRef.ref}>
+            <h2 className={`text-5xl font-bold mb-16 ${contactRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+              <span className="gradient-text">Let's Connect</span>
             </h2>
-            <Card className="glass-card hover-glow">
-              <CardContent className="pt-6">
-                <p className="text-lg text-foreground/80 mb-8">
+            <Card className={`glass-card hover-glow shadow-elegant ${contactRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+              <CardContent className="pt-8">
+                <p className="text-xl text-foreground/80 mb-12 leading-relaxed">
                   Always open to discussing new opportunities, collaborations, or just talking tech!
                 </p>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  <Button size="lg" className="hover-glow group" asChild>
-                    <a href="mailto:harshitarora1065@gmail.com" className="flex items-center gap-2">
-                      <Mail className="w-5 h-5" />
+                <div className="flex flex-wrap gap-6 justify-center">
+                  <Button 
+                    size="lg" 
+                    className="magnetic-button hover-glow group px-8 py-6 text-lg shadow-elegant hover:shadow-intense" 
+                    asChild
+                  >
+                    <a href="mailto:harshitarora1065@gmail.com" className="flex items-center gap-3">
+                      <Mail className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
                       Email Me
                     </a>
                   </Button>
-                  <Button size="lg" variant="outline" className="hover-glow border-primary/50 group" asChild>
-                    <a href="https://github.com/harshit1arora" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                      <Github className="w-5 h-5" />
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="magnetic-button hover-glow border-primary/50 group px-8 py-6 text-lg backdrop-blur-sm bg-primary/5" 
+                    asChild
+                  >
+                    <a href="https://github.com/harshit1arora" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
+                      <Github className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
                       GitHub
                     </a>
                   </Button>
-                  <Button size="lg" variant="outline" className="hover-glow border-primary/50 group" asChild>
-                    <a href="https://www.linkedin.com/in/harshit10arora/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                      <Linkedin className="w-5 h-5" />
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="magnetic-button hover-glow border-primary/50 group px-8 py-6 text-lg backdrop-blur-sm bg-primary/5" 
+                    asChild
+                  >
+                    <a href="https://www.linkedin.com/in/harshit10arora/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
+                      <Linkedin className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
                       LinkedIn
                     </a>
                   </Button>
@@ -290,12 +369,12 @@ const Index = () => {
         </section>
 
         {/* Footer */}
-        <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-border/50">
+        <footer className="py-16 px-4 sm:px-6 lg:px-8 border-t border-primary/20 bg-gradient-to-b from-transparent to-primary/5">
           <div className="max-w-6xl mx-auto text-center">
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-lg mb-3">
               © 2025 Harshit Arora. Built with React, TypeScript, and Tailwind CSS.
             </p>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-base text-primary/80">
               Crafted with precision and passion ✨
             </p>
           </div>
