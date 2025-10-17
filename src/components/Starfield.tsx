@@ -37,7 +37,7 @@ export const Starfield = () => {
     }
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(34, 40, 49, 0.1)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       stars.forEach((star) => {
@@ -57,13 +57,13 @@ export const Starfield = () => {
           const opacity = 1 - star.z / canvas.width;
           
           ctx.beginPath();
-          ctx.fillStyle = `rgba(138, 93, 255, ${opacity})`;
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
           ctx.arc(px, py, size, 0, Math.PI * 2);
           ctx.fill();
           
-          // Add cyan accent stars randomly
+          // Add brighter white accent stars randomly
           if (Math.random() > 0.95) {
-            ctx.fillStyle = `rgba(13, 202, 240, ${opacity * 0.6})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.8})`;
             ctx.arc(px, py, size * 1.5, 0, Math.PI * 2);
             ctx.fill();
           }

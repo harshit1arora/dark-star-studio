@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
+import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -39,10 +40,11 @@ const Index = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <Starfield />
+      <Navbar />
       
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <section id="home" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
           <div 
             className="text-center max-w-4xl animate-fade-in"
             style={{ transform: `translateY(${scrollY * 0.5}px)` }}
