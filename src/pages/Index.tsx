@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Starfield } from '@/components/Starfield';
 import Navbar from '@/components/Navbar';
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,12 +9,6 @@ import { Github, Linkedin, Mail, ExternalLink, Code2, Database, Shield, Sparkles
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
-  const whyRubrikRef = useScrollAnimation();
-  const aboutRef = useScrollAnimation();
-  const skillsRef = useScrollAnimation();
-  const projectsRef = useScrollAnimation();
-  const contactRef = useScrollAnimation();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -61,7 +54,12 @@ const Index = () => {
       
       <div className="relative z-10">
         {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 relative overflow-hidden">
+        <section 
+          id="home" 
+          className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 relative overflow-hidden"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
           {/* Animated gradient orbs */}
           <div 
             className="absolute w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse"
@@ -85,31 +83,31 @@ const Index = () => {
             className="text-center max-w-4xl relative z-10"
             style={{ transform: `translateY(${scrollY * 0.3}px)` }}
           >
-            <div className="mb-8 inline-block reveal-text">
+            <div className="mb-8 inline-block" data-aos="fade-down" data-aos-delay="300">
               <Badge variant="outline" className="px-6 py-3 text-sm border-primary/50 text-primary animate-pulse-glow backdrop-blur-sm bg-primary/5">
                 <Sparkles className="w-4 h-4 inline mr-2" />
                 Open to Opportunities
               </Badge>
             </div>
             
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-8 reveal-text" style={{ animationDelay: '0.2s' }}>
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-8" data-aos="fade-up" data-aos-delay="400">
               <span className="gradient-text inline-block hover:scale-105 transition-transform duration-300 cursor-default">
                 Harshit Arora
               </span>
             </h1>
             
-            <p className="text-3xl sm:text-4xl text-foreground mb-10 reveal-text font-light tracking-wide" style={{ animationDelay: '0.4s' }}>
+            <p className="text-3xl sm:text-4xl text-foreground mb-10 font-light tracking-wide" data-aos="fade-up" data-aos-delay="500">
               Aspiring Software Developer
             </p>
             
-            <p className="text-xl sm:text-2xl text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed reveal-text" style={{ animationDelay: '0.6s' }}>
+            <p className="text-xl sm:text-2xl text-muted-foreground mb-16 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="600">
               Turning complex problems into elegant solutions through 
               <span className="text-primary font-semibold"> code</span>,
               <span className="text-primary font-semibold"> research</span>, and
               <span className="text-primary font-semibold"> innovation</span>
             </p>
             
-            <div className="flex flex-wrap gap-6 justify-center reveal-text" style={{ animationDelay: '0.8s' }}>
+            <div className="flex flex-wrap gap-6 justify-center" data-aos="fade-up" data-aos-delay="700">
               <Button 
                 size="lg" 
                 className="magnetic-button hover-glow group px-8 py-6 text-lg shadow-elegant hover:shadow-intense"
@@ -134,11 +132,11 @@ const Index = () => {
 
         {/* Why Rubrik Section */}
         <section className="py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto" ref={whyRubrikRef.ref}>
-            <h2 className={`text-5xl font-bold mb-16 text-center ${whyRubrikRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+          <div className="max-w-6xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <h2 className="text-5xl font-bold mb-16 text-center" data-aos="fade-up" data-aos-delay="300">
               <span className="gradient-text">Why Rubrik?</span>
             </h2>
-            <Card className={`glass-card hover-glow shadow-elegant ${whyRubrikRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+            <Card className="glass-card hover-glow shadow-elegant" data-aos="zoom-in" data-aos-delay="400">
               <CardHeader>
                 <CardTitle className="text-2xl flex items-center gap-3">
                   <Shield className="w-8 h-8 text-primary" />
@@ -147,7 +145,7 @@ const Index = () => {
               </CardHeader>
               <CardContent className="space-y-6 text-foreground/90">
                 <div className="space-y-4">
-                  <div className="flex gap-4">
+                  <div className="flex gap-4" data-aos="fade-right" data-aos-delay="500">
                     <Database className="w-6 h-6 text-accent shrink-0 mt-1" />
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-foreground">Data-Centric Problem Solver</h3>
@@ -159,7 +157,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex gap-4" data-aos="fade-left" data-aos-delay="600">
                     <Code2 className="w-6 h-6 text-primary shrink-0 mt-1" />
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-foreground">Full-Stack Innovation</h3>
@@ -171,7 +169,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex gap-4" data-aos="fade-right" data-aos-delay="700">
                     <ExternalLink className="w-6 h-6 text-accent-purple shrink-0 mt-1" />
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-foreground">Research-Driven Mindset</h3>
@@ -183,7 +181,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex gap-4" data-aos="fade-left" data-aos-delay="800">
                     <Shield className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-foreground">Impact at Scale</h3>
@@ -196,7 +194,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div className="border-t border-border pt-6 mt-6">
+                <div className="border-t border-border pt-6 mt-6" data-aos="fade-up" data-aos-delay="900">
                   <p className="text-lg font-medium text-foreground">
                     I'm not just looking for a job—I'm seeking a team where I can apply my technical skills, research mindset, and passion for solving 
                     real-world problems to help organizations secure and optimize their most valuable asset: their data. Rubrik's mission resonates with 
@@ -210,33 +208,33 @@ const Index = () => {
 
         {/* About Section */}
         <section id="about" className="py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto" ref={aboutRef.ref}>
-            <h2 className={`text-5xl font-bold mb-16 text-center ${aboutRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+          <div className="max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <h2 className="text-5xl font-bold mb-16 text-center" data-aos="fade-up" data-aos-delay="300">
               <span className="gradient-text">About Me</span>
             </h2>
-            <Card className={`glass-card hover-glow shadow-elegant ${aboutRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+            <Card className="glass-card hover-glow shadow-elegant" data-aos="zoom-in" data-aos-delay="400">
               <CardContent className="pt-6 text-foreground/90 leading-relaxed space-y-4">
-                <p>
+                <p data-aos="fade-up" data-aos-delay="500">
                   Harshit is a computer science student at Vellore Institute of Technology, Bhopal with a passion for solving real-world problems through code. 
                   When he's not optimizing algorithms or debugging late into the night, he's diving deep into research-driven projects, like the time he figured 
                   out how to detect heart rates through a webcam by analyzing subtle skin color changes.
                 </p>
-                <p>
+                <p data-aos="fade-up" data-aos-delay="600">
                   His summer at MathonGo wasn't a typical internship. Harshit reviewed over 2,500 community solutions and meticulously corrected more than 1,000 
                   errors in JEE Chemistry books, directly impacting 25,000+ students preparing for competitive exams. It's the kind of detailed work that requires 
                   both technical precision and genuine care for the end users.
                 </p>
-                <p>
+                <p data-aos="fade-up" data-aos-delay="700">
                   As an open-source contributor with GirlScript Summer of Code, Harshit has merged pull requests from across the globe, squashed critical bugs, 
                   and built features that actually make a difference, like dynamic ride pricing algorithms that cut response times by 30%. His project portfolio 
                   ranges from real-time heart rate detection to WalSpectra, a phantom inventory system designed to save Walmart billions in lost revenue.
                 </p>
-                <p>
+                <p data-aos="fade-up" data-aos-delay="800">
                   What sets Harshit apart isn't just his 80+ certificates from Google, Microsoft, and Amazon, or his 250+ solved competitive programming problems—it's 
                   his ability to bridge the gap between complex technical concepts and practical solutions. Whether he's representing Google as a Student Ambassador 
                   or designing user-centered interfaces in Figma, he approaches every challenge with curiosity and a learner's mindset.
                 </p>
-                <p className="font-medium text-foreground">
+                <p className="font-medium text-foreground" data-aos="fade-up" data-aos-delay="900">
                   Currently grinding through his B.Tech, Harshit is always looking for the next problem worth solving.
                 </p>
               </CardContent>
@@ -246,21 +244,20 @@ const Index = () => {
 
         {/* Skills Section */}
         <section id="skills" className="py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto" ref={skillsRef.ref}>
-            <h2 className={`text-5xl font-bold mb-16 text-center ${skillsRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+          <div className="max-w-6xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <h2 className="text-5xl font-bold mb-16 text-center" data-aos="fade-up" data-aos-delay="300">
               <span className="gradient-text">Technical Arsenal</span>
             </h2>
-            <Card className={`glass-card shadow-elegant ${skillsRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+            <Card className="glass-card shadow-elegant" data-aos="zoom-in" data-aos-delay="400">
               <CardContent className="pt-8">
                 <div className="flex flex-wrap gap-4 justify-center">
                   {skills.map((skill, index) => (
                     <Badge
                       key={skill}
                       variant="secondary"
-                      className={`px-5 py-3 text-base magnetic-button cursor-default bg-secondary/50 border border-primary/20 hover:border-primary hover:bg-primary/10 hover:scale-110 hover:shadow-glow ${
-                        skillsRef.isVisible ? 'fade-in-scale' : 'opacity-0'
-                      }`}
-                      style={{ animationDelay: `${0.3 + index * 0.03}s` }}
+                      className="px-5 py-3 text-base magnetic-button cursor-default bg-secondary/50 border border-primary/20 hover:border-primary hover:bg-primary/10 hover:scale-110 hover:shadow-glow"
+                      data-aos="zoom-in"
+                      data-aos-delay={500 + index * 30}
                     >
                       {skill}
                     </Badge>
@@ -273,20 +270,17 @@ const Index = () => {
 
         {/* Projects Section */}
         <section id="projects" className="py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto" ref={projectsRef.ref}>
-            <h2 className={`text-5xl font-bold mb-16 text-center ${projectsRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+          <div className="max-w-6xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <h2 className="text-5xl font-bold mb-16 text-center" data-aos="fade-up" data-aos-delay="300">
               <span className="gradient-text">Featured Projects</span>
             </h2>
             <div className="grid md:grid-cols-2 gap-10">
               {projects.map((project, index) => (
                 <Card 
                   key={index} 
-                  className={`glass-card hover-glow shadow-elegant group cursor-pointer ${
-                    projectsRef.isVisible 
-                      ? index % 2 === 0 ? 'slide-in-left' : 'slide-in-right'
-                      : 'opacity-0'
-                  }`}
-                  style={{ animationDelay: `${0.3 + index * 0.2}s` }}
+                  className="glass-card hover-glow shadow-elegant group cursor-pointer"
+                  data-aos="fade-up"
+                  data-aos-delay={400 + index * 150}
                 >
                   <CardHeader>
                     <CardTitle className="text-2xl group-hover:text-primary transition-colors duration-300">{project.title}</CardTitle>
@@ -320,16 +314,16 @@ const Index = () => {
 
         {/* Contact Section */}
         <section id="contact" className="py-32 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center" ref={contactRef.ref}>
-            <h2 className={`text-5xl font-bold mb-16 ${contactRef.isVisible ? 'reveal-text' : 'opacity-0'}`}>
+          <div className="max-w-4xl mx-auto text-center" data-aos="fade-up" data-aos-delay="200">
+            <h2 className="text-5xl font-bold mb-16" data-aos="fade-up" data-aos-delay="300">
               <span className="gradient-text">Let's Connect</span>
             </h2>
-            <Card className={`glass-card hover-glow shadow-elegant ${contactRef.isVisible ? 'fade-in-scale' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+            <Card className="glass-card hover-glow shadow-elegant" data-aos="zoom-in" data-aos-delay="400">
               <CardContent className="pt-8">
-                <p className="text-xl text-foreground/80 mb-12 leading-relaxed">
+                <p className="text-xl text-foreground/80 mb-12 leading-relaxed" data-aos="fade-up" data-aos-delay="500">
                   Always open to discussing new opportunities, collaborations, or just talking tech!
                 </p>
-                <div className="flex flex-wrap gap-6 justify-center">
+                <div className="flex flex-wrap gap-6 justify-center" data-aos="fade-up" data-aos-delay="600">
                   <Button 
                     size="lg" 
                     className="magnetic-button hover-glow group px-8 py-6 text-lg shadow-elegant hover:shadow-intense" 
